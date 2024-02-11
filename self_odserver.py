@@ -19,10 +19,12 @@ if __name__ == "__main__":
     my_profile = vars(userProfile(name, age, salary))
     db = config.mongo_client["cluster0"]
     col = db["data"]
-    
+    if col.find_one({"name": name}):
+        print("Profile already exists")
+        exit()
+        
     x = col.insert_one(my_profile)
-    insertExpense(col, db)
-    ic(x.inserted_id)
+    
     
     print("Profile created successfully")
     ic(my_profile)
